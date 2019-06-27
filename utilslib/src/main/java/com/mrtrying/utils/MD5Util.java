@@ -26,6 +26,7 @@ public class MD5Util {
      */
     public static String encode(String value) {
         byte[] bytes = new byte[0];
+
         try {
             bytes = MessageDigest.getInstance("MD5").digest(value.getBytes("UTF-8"));
         } catch (NoSuchAlgorithmException e) {
@@ -67,21 +68,18 @@ public class MD5Util {
         DigestInputStream dis = null;
 
         try {
-            //创建MD5转换器和文件流
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             fis = new FileInputStream(file);
             dis = new DigestInputStream(fis, messageDigest);
 
             byte[] buffer = new byte[bufferSize];
-            //DigestInputStream实际上在流处理文件时就在内部就进行了一定的处理
+
             while (dis.read(buffer) > 0) ;
 
-            //通过DigestInputStream对象得到一个最终的MessageDigest对象。
             messageDigest = dis.getMessageDigest();
 
-            // 通过messageDigest拿到结果，也是字节数组，包含16个元素
             byte[] bytes = messageDigest.digest();
-            // 同样，把字节数组转换成字符串
+
             return byteArrayToHexString(bytes).toString();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
